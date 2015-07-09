@@ -18,7 +18,12 @@
     (uuid? predicate/c)))
 
 
-(define-ffi-definer define-uuid (ffi-lib "libuuid" '("1" "")))
+(define which-lib
+  (case (system-type 'os)
+    [(macosx) "libSystem"]
+    [else "libuuid"]))
+
+(define-ffi-definer define-uuid (ffi-lib which-lib '("1" "")))
 
 
 (define (uuid? str)
